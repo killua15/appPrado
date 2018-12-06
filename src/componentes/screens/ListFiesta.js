@@ -1,31 +1,26 @@
 import React, { Component } from 'react'
 import { View, Platform, Text, StyleSheet } from 'react-native'
 import { Grid, Row, Form, Item, Label, Input } from 'native-base';
-import FormRegister from '../containers/form_register/form_register';
+import FormLogin from '../containers/form_login/form_login';
 import { material } from 'react-native-typography'
 import HeaderBar from '../components/headerBar/headerBar';
-export default class Register extends Component {
-    constructor(props){
-        super(props)
-        console.log(props)
-    }
+import FlatListFiesta from '../containers/listFiesta/flatListFiesta';
+export default class ListFiesta extends Component {
     static navigationOptions = {
         header: null
     }
-    onHandleBackButton = () =>{
-          this.props.navigation.goBack()
-    }
     render() {
         return (
-            <View style={styles.container}>
+
+            <View >
                 <HeaderBar
-                    onHandleBackButton={this.onHandleBackButton}
                     color='red'
-                    title='Registro'
-                    backIcon={true}
-                    MenuIcon={false}/>
-                <View style={{ marginTop: 20, alignItems: 'center' }}>
-                    <FormRegister style={{ flex: 1 }}> </FormRegister>
+                    title='Fiestas'
+                    backIcon={false}
+                    MenuIcon={true}
+                />
+                <View style={styles.container}>
+                   <FlatListFiesta></FlatListFiesta>
                 </View>
 
             </View>
@@ -38,8 +33,8 @@ export default class Register extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // marginTop: 80,
-        // alignItems: 'center',
+        //marginTop: 5,
+       // alignItems: 'center',
         //flex: 1
 
     },

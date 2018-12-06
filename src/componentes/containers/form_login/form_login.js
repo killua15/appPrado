@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-import { Row } from 'native-base';
+import { Row, Spinner } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { loginAction } from '../../../redux/actions/loginAction'
 import Inputs from '../../components/form_login/inputs'
 import ButtonStyled from '../../components/buttons/button_styled';
 
@@ -11,8 +13,31 @@ class FormLogin extends Component {
         super(props)
         this.state = {
             usuario: 'ID',
-            pass: 'Password'
+            pass: 'Password',
+            errorUser: '',
+            errorPass: '',
         }
+    }
+    shouldComponentUpdate(nP, nS){
+        if(JSON.stringify(this.props.login) !== JSON.stringify(nP.login) ){
+            const { login } = nP
+            if (login.data[1] == 400) {
+                if ('Missing password' === login.data[0].error) {
+                    this.setState({ errorPass: 'Missing password'})
+                }
+                if ('Missing email or username' === login.data[0].error) {
+                    this.setState({ errorUser: 'Missing email or ID' })
+                }
+            }
+            if(nP.login.data[1] == 200){
+                console.log("entro")
+                this.props.navigation.navigate('ListFiesta')
+            }
+
+        }
+       
+        return true
+     
     }
     onFocus = (input) => {
         if (input == 'user') {
@@ -44,13 +69,21 @@ class FormLogin extends Component {
             this.setState({ pass: val })
         }
     }
-    onPressButtonLogin = () => {
-        console.log("loging")
+    onPressButtonLogin = async () => {
+        if(this.state.usuario === 'ID'){
+            this.setState({usuario:''})
+        }
+        if(this.state.pass === 'Password'){
+            this.setState({pass:''})
+        }
+       
+        await this.props.loginAction(this.state.usuario, this.state.pass)
+      
     }
     onPressButtonRegister = () => {
-       this.props.navigation.navigate('Register')
+        this.props.navigation.navigate('Register')
     }
-    render() {
+    form_login_view = () => {
         return (
             <View>
                 <Inputs
@@ -62,6 +95,8 @@ class FormLogin extends Component {
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
+                    errorMessage={this.state.errorUser}
+                    labelStyle={{paddingBottom:10}}
                     onChangeText={this.onChangeText}
                 />
                 <Inputs
@@ -73,7 +108,9 @@ class FormLogin extends Component {
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
+                    errorMessage={this.state.errorPass}
                     onChangeText={this.onChangeText}
+                    labelStyle={{paddingBottom:10}}
 
                 />
                 <ButtonStyled
@@ -90,6 +127,18 @@ class FormLogin extends Component {
                 >
                 </ButtonStyled>
             </View>
+        )
+
+    }
+    render() {
+        console.log(this.props)
+        const { login } = this.props
+        return (
+            login.isFeching == true ?
+                <Spinner color='blue'></Spinner>
+                :
+                this.form_login_view()
+
 
         )
     }
@@ -132,5 +181,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'red'
     }
 })
-
-export default FormLogin
+const mapStateToProps = (state) => {
+    const { login } = state
+    return { login }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        loginAction: (v, u) => dispatch(loginAction(v, u))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin) 

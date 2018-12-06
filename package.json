@@ -7,9 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "json-server": "^0.14.0",
+    "native-base": "^2.8.1",
     "react": "16.6.1",
     "react-native": "0.57.7",
-    "native-base": "^2.8.1",
     "react-native-animated-header": "^1.0.6",
     "react-native-communications": "^2.2.1",
     "react-native-elements": "^0.19.1",

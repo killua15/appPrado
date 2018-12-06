@@ -90,6 +90,8 @@ class FormRegister extends Component {
        this.setState({genero_radio:!this.state.genero_radio})
     }
     render() {
+      
+
         return (
             <View>
                 <Inputs
@@ -148,16 +150,9 @@ class FormRegister extends Component {
                 />
                 <RadioGenero genero_radio={this.state.genero_radio} onPress={this.onPressRadio} style={{marginTop:5}}></RadioGenero>
                 <ButtonStyled
-                    styleBotton={styles.bottonLogin}
-                    TextBotton='Login'
-                    onPressButton={this.onPressButtonLogin}
-                >
-                </ButtonStyled>
-
-                <ButtonStyled
                     styleBotton={styles.bottonRegister}
                     TextBotton='Registrar'
-                    onPressButton={this.onPressButtonRegister}
+                    onPressButton={this.onPressButtonLogin}
                 >
                 </ButtonStyled>
             </View>

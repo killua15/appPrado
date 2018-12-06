@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux'
-//import TaxisReducer from './TaxisReducers'
+import LoginReducer from './loginReducer'
+import ListFiestaReducer from './listFiestaReducer'
 
 
 export default function getRootReducer(navReducer){
   return combineReducers({
     nav:navReducer,
-   // taxis:TaxisReducer
+    login:LoginReducer,
+    fiestas:ListFiestaReducer
+
 })
 }
