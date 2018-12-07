@@ -20,7 +20,7 @@ export default class ListFiesta extends Component {
                     MenuIcon={true}
                 />
                 <View style={styles.container}>
-                   <FlatListFiesta></FlatListFiesta>
+                   <FlatListFiesta navigation={this.props.navigation}></FlatListFiesta>
                 </View>
 
             </View>

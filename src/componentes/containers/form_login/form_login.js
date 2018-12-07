@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions, Text } from 'react-native'
 import { Row, Spinner } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
@@ -18,26 +18,28 @@ class FormLogin extends Component {
             errorPass: '',
         }
     }
-    shouldComponentUpdate(nP, nS){
-        if(JSON.stringify(this.props.login) !== JSON.stringify(nP.login) ){
+    shouldComponentUpdate(nP, nS) {
+        if (JSON.stringify(this.props.login) !== JSON.stringify(nP.login)) {
             const { login } = nP
             if (login.data[1] == 400) {
                 if ('Missing password' === login.data[0].error) {
-                    this.setState({ errorPass: 'Missing password'})
+                    this.setState({ errorPass: 'Missing password' })
                 }
                 if ('Missing email or username' === login.data[0].error) {
                     this.setState({ errorUser: 'Missing email or ID' })
                 }
             }
-            if(nP.login.data[1] == 200){
+            if (nP.login.data[1] == 200) {
                 console.log("entro")
                 this.props.navigation.navigate('ListFiesta')
             }
-
+            if (nP.login.error == true) {
+                this.setState({ errorMessage: nP.login.data.message })
+            }
         }
-       
+
         return true
-     
+
     }
     onFocus = (input) => {
         if (input == 'user') {
@@ -70,15 +72,26 @@ class FormLogin extends Component {
         }
     }
     onPressButtonLogin = async () => {
-        if(this.state.usuario === 'ID'){
-            this.setState({usuario:''})
+        this.setState({ errorUser: '' })
+        this.setState({ errorPass: '' })
+        if (this.state.usuario === 'ID' || this.state.usuario === '') {
+            this.setState({ usuario: '' })
+            this.setState({ errorUser: 'Require this field' })
+        } else if (this.state.pass === 'Password' || this.state.pass === '') {
+            this.setState({ pass: '' })
+            this.setState({ errorPass: 'Require this field' })
+        } else {
+            await this.props.loginAction(this.state.usuario, this.state.pass)
         }
-        if(this.state.pass === 'Password'){
-            this.setState({pass:''})
-        }
-       
-        await this.props.loginAction(this.state.usuario, this.state.pass)
-      
+        // if (this.state.usuario == '') {
+        //     this.setState({ errorUser: 'Require this field' })
+        // } else if (this.state.pass == '') {
+        //     this.setState({ errorPass: 'Require this field' })
+        // } 
+
+
+
+
     }
     onPressButtonRegister = () => {
         this.props.navigation.navigate('Register')
@@ -96,7 +109,7 @@ class FormLogin extends Component {
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorUser}
-                    labelStyle={{paddingBottom:10}}
+                    labelStyle={{ paddingBottom: 10 }}
                     onChangeText={this.onChangeText}
                 />
                 <Inputs
@@ -110,7 +123,7 @@ class FormLogin extends Component {
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorPass}
                     onChangeText={this.onChangeText}
-                    labelStyle={{paddingBottom:10}}
+                    labelStyle={{ paddingBottom: 10 }}
 
                 />
                 <ButtonStyled
@@ -126,6 +139,10 @@ class FormLogin extends Component {
                     onPressButton={this.onPressButtonRegister}
                 >
                 </ButtonStyled>
+                <View style>
+                    <Text style={{ marginTop: 30, color: 'red', alignItems: 'center' }}>{this.state.errorMessage}</Text>
+                </View>
+
             </View>
         )
 
@@ -138,6 +155,7 @@ class FormLogin extends Component {
                 <Spinner color='blue'></Spinner>
                 :
                 this.form_login_view()
+
 
 
         )

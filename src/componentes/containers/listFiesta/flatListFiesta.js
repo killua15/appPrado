@@ -13,14 +13,14 @@ class FlatListFiesta extends Component {
      this.getDataList()
   }
 
-  onClickItemFiesta = () => {
-
+  onHandleDetalleFiesta = (item) => {
+     this.props.navigation.navigate('DetallesFiesta',{item:item})
   }
-  renderRow({ item }) {
+  renderRow = ( {item} ) => {
     return (
       <ListItemFiesta
-        onClickItemFiesta={this.onClickItemFiesta}
         item={item}
+        onHandleDetalleFiesta={ this.onHandleDetalleFiesta}
       />
     )
   }

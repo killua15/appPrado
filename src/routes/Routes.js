@@ -2,11 +2,12 @@ import Login from '../componentes/screens/Login'
 // import Loading from '../componentes/containers/details'
  import Register from '../componentes/screens/Register'
  import ListFiesta from '../componentes/screens/ListFiesta'
-// import DetalleFiesta from '../componentes/containers/details'
+ import DetallesFiesta from '../componentes/screens/DetallesFiesta'
 const Routes = {
     Login: { screen: Login },
     Register: { screen: Register },
-    ListFiesta:{screen:ListFiesta}
+    ListFiesta:{screen:ListFiesta},
+    DetallesFiesta:{screen:DetallesFiesta},
 }
 
 export default Routes

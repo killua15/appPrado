@@ -15,6 +15,7 @@ export const LoginError = data => {
     return {
         type: 'login_data_error',
         data
+        
     }
 }
 

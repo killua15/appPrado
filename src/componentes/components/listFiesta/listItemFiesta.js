@@ -21,11 +21,11 @@ const ListItemFiesta = (props) => {
 
     var images = []
     images= this.getPicture(image)
-    console.log(images[0]['#text'])
-
-
+    console.log(props)
   return (
-    <TouchableOpacity>
+    <TouchableOpacity 
+      onPress={() => props.onHandleDetalleFiesta(props.item)}
+    >
     <Card style={styles.card_main}>
       <CardItem>
         <Left>

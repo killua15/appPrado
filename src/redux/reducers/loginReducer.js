@@ -22,7 +22,7 @@ export default loginReducer = (state = INITIAL_STATE, action) => {
         case 'login_data_error':
             return {
                 ...state,
-                data: action.data._bodyInit,
+                data: action.data,
                 isFeching: false,
                 error:true
             }
