@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, Text,AsyncStorage } from 'react-native'
+import { StyleSheet, Dimensions, Text,AsyncStorage,Platform } from 'react-native'
 import { Row, Spinner } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
@@ -17,6 +17,7 @@ class FormLogin extends Component {
             errorUser: '',
             errorPass: '',
         }
+       
     }
      saveTokenUser = async userId => {
         try {
@@ -103,7 +104,7 @@ class FormLogin extends Component {
     }
     form_login_view = () => {
         return (
-            <View style={{marginTop:(Dimensions.get('screen').height*10)/100}}>
+            <View style={{marginTop:Platform.OS === 'ios' ? (Dimensions.get('window').height*15)/100 : (Dimensions.get('window').height*5)/100}}>
                 <Inputs
                     nameInput='user'
                     ContainerStyleLabel={styles.labelContain}

@@ -48,7 +48,7 @@ export default class Login extends Component {
             return (
 
                 <View style={styles.container}>
-                    <View style={{ marginTop: (Dimensions.get('screen').height * 10) / 100 }}>
+                    <View style={{ marginTop: (Dimensions.get('screen').height * 20) / 100 }}>
                         <Text style={styles.text_prado}>PradoAplication</Text>
                     </View >
                     <FormLogin navigation={this.props.navigation} style={{ flex: 1 }}></FormLogin>
