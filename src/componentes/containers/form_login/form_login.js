@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, Text } from 'react-native'
+import { StyleSheet, Dimensions, Text,AsyncStorage } from 'react-native'
 import { Row, Spinner } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
@@ -18,6 +18,14 @@ class FormLogin extends Component {
             errorPass: '',
         }
     }
+     saveTokenUser = async userId => {
+        try {
+          await AsyncStorage.setItem('tokenUser', userId);
+        } catch (error) {
+          // Error retrieving data
+          console.log(error.message);
+        }
+      };
     shouldComponentUpdate(nP, nS) {
         if (JSON.stringify(this.props.login) !== JSON.stringify(nP.login)) {
             const { login } = nP
@@ -30,8 +38,14 @@ class FormLogin extends Component {
                 }
             }
             if (nP.login.data[1] == 200) {
-                console.log("entro")
+                //console.log("entro")
+                //console.log(nP.login.data[0].token)
+                this.saveTokenUser(nP.login.data[0].token)
                 this.props.navigation.navigate('ListFiesta')
+              
+             
+
+
             }
             if (nP.login.error == true) {
                 this.setState({ errorMessage: nP.login.data.message })
@@ -76,29 +90,20 @@ class FormLogin extends Component {
         this.setState({ errorPass: '' })
         if (this.state.usuario === 'ID' || this.state.usuario === '') {
             this.setState({ usuario: '' })
-            this.setState({ errorUser: 'Require this field' })
+            this.setState({ errorUser: 'Campo Requerido' })
         } else if (this.state.pass === 'Password' || this.state.pass === '') {
             this.setState({ pass: '' })
-            this.setState({ errorPass: 'Require this field' })
+            this.setState({ errorPass: 'Campo Requerido' })
         } else {
             await this.props.loginAction(this.state.usuario, this.state.pass)
         }
-        // if (this.state.usuario == '') {
-        //     this.setState({ errorUser: 'Require this field' })
-        // } else if (this.state.pass == '') {
-        //     this.setState({ errorPass: 'Require this field' })
-        // } 
-
-
-
-
     }
     onPressButtonRegister = () => {
         this.props.navigation.navigate('Register')
     }
     form_login_view = () => {
         return (
-            <View>
+            <View style={{marginTop:(Dimensions.get('screen').height*20)/100}}>
                 <Inputs
                     nameInput='user'
                     ContainerStyleLabel={styles.labelContain}

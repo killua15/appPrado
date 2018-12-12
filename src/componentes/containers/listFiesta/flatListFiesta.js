@@ -5,46 +5,55 @@ import ListItemFiesta from '../../components/listFiesta/listItemFiesta';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { fiestaAction } from '../../../redux/actions/listFiestaAction'
+import { Spinner } from 'native-base';
 class FlatListFiesta extends Component {
   static navigationOptions = {
     header: null
   }
-  componentWillMount() {
-     this.getDataList()
+  async componentWillMount() {
+    await this.getDataList()
   }
 
   onHandleDetalleFiesta = (item) => {
-     this.props.navigation.navigate('DetallesFiesta',{item:item})
+    this.props.navigation.navigate('DetallesFiesta', { id: item.id })
   }
-  renderRow = ( {item} ) => {
+  renderRow = ({ item }) => {
+    console.log(item)
     return (
       <ListItemFiesta
         item={item}
-        onHandleDetalleFiesta={ this.onHandleDetalleFiesta}
+        onHandleDetalleFiesta={this.onHandleDetalleFiesta}
       />
     )
   }
-  getDataList = async  () => {
-    await this.props.fiestaAction()    
+  getDataList = async () => {
+    //console.log(this.props)
+    await this.props.fiestaAction()
   }
   render() {
-    const {fiestas} = this.props
-    var listFiestas
+    const { fiestas } = this.props
+    //console.log(fiestas)
+    var listFiestas = []
     //console.log(fiestas.isFeching)
-    if(fiestas.isFeching== false){
-      if(fiestas.data != null){
-       // console.log(fiestas.data.artist)
-        listFiestas=fiestas.data.artist
+    if (fiestas.isFeching == false) {
+      if (fiestas.data != null) {
+        console.log(fiestas)
+        listFiestas = fiestas.data.data
+        // console.log(listFiestas)
 
       }
     }
-    
+
     return (
-      <FlatList
-        data={listFiestas}
-        renderItem={this.renderRow}
-        keyExtractor={item => item.name}
-      />
+
+      fiestas.isFeching == true ?
+        <Spinner color='blue'></Spinner>
+        :
+        <FlatList
+          data={fiestas.data}
+          renderItem={this.renderRow}
+          keyExtractor={item => item.id}
+        />
 
     )
   }

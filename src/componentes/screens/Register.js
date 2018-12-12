@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-import { View, Platform, Text, StyleSheet } from 'react-native'
+import { View, Platform, Dimensions,Text, StyleSheet,ScrollView} from 'react-native'
 import { Grid, Row, Form, Item, Label, Input } from 'native-base';
 import FormRegister from '../containers/form_register/form_register';
 import { material } from 'react-native-typography'
 import HeaderBar from '../components/headerBar/headerBar';
 export default class Register extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         console.log(props)
     }
     static navigationOptions = {
         header: null
     }
-    onHandleBackButton = () =>{
-          this.props.navigation.goBack()
+    onHandleBackButton = () => {
+        this.props.navigation.goBack()
     }
+   
     render() {
         return (
             <View style={styles.container}>
@@ -23,9 +24,11 @@ export default class Register extends Component {
                     color='red'
                     title='Registro'
                     backIcon={true}
-                    MenuIcon={false}/>
+                    MenuIcon={false} />
                 <View style={{ marginTop: 20, alignItems: 'center' }}>
-                    <FormRegister style={{ flex: 1 }}> </FormRegister>
+                    <ScrollView style={{height:Dimensions.get('screen').height-10}}>
+                        <FormRegister navigation={this.props.navigation} style={{ flex: 1 }}> </FormRegister>
+                    </ScrollView>
                 </View>
 
             </View>

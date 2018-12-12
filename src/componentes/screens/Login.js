@@ -1,34 +1,69 @@
 import React, { Component } from 'react'
-import { View, Platform, Text, StyleSheet } from 'react-native'
-import { Grid, Row, Form, Item, Label, Input } from 'native-base';
+import { View, Platform, Text, Dimensions, StyleSheet, AsyncStorage } from 'react-native'
+import { Grid, Row, Form, Item, Label, Input, Spinner } from 'native-base';
 import FormLogin from '../containers/form_login/form_login';
 import { material } from 'react-native-typography'
+var token = null
 export default class Login extends Component {
     static navigationOptions = {
         header: null
     }
+    constructor(props){
+        super(props)
+        this.state = {
+            token:''
+        }
+    }
+    async componentWillMount() {
+        token = await this.getUserToken()
+        if (token != 'none') {
+            this.props.navigation.navigate('ListFiesta')
+        }else{
+            this.setState({token:token})
+        }
+    }
+   
+    getUserToken = async () => {
+        let userId = '';
+        try {
+            userId = await AsyncStorage.getItem('tokenUser') || 'none';
+        } catch (error) {
+            // Error retrieving data
+            console.log(error.message);
+        }
+        console.log(userId)
+        return userId;
+
+    }
     render() {
-        console.log(this.props)
-        return (
+        if (token == null) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Spinner color="blue"></Spinner>
+                    <Text style={{ ...material.display1 }}>Cargando...</Text>
+                </View>
 
-            <View style={styles.container}>
-            <View style={{flex:0.7}}>
-                 <Text style={styles.text_prado}>PradoAplication</Text>
-            </View>
-                <FormLogin navigation={this.props.navigation} style={{flex:1}}></FormLogin>
-            </View>
+            )
+        } else {
+            return (
 
+                <View style={styles.container}>
+                    <View style={{ marginTop: (Dimensions.get('screen').height * 10) / 100 }}>
+                        <Text style={styles.text_prado}>PradoAplication</Text>
+                    </View >
+                    <FormLogin navigation={this.props.navigation} style={{ flex: 1 }}></FormLogin>
+                </View>
+            )
+        }
 
-
-        )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        //marginTop: 50,
         alignItems: 'center',
-        flex:1
+        flex: 1
 
     },
     text_color: {
@@ -37,9 +72,9 @@ const styles = StyleSheet.create({
     form: {
         backgroundColor: '#fff'
     },
-    text_prado:{
+    text_prado: {
         ...material.display1,
-        marginTop:100,
+        marginTop: 100,
 
     }
 }) 

@@ -1,28 +1,36 @@
 import React from 'react'
-import {View} from 'react-native'
+import { View, StyleSheet, Dimensions,TouchableOpacity} from 'react-native'
 import { Container, Header, Content, ListItem, Text, Radio, Right, Left } from 'native-base';
-
 const RadioGenero = (props) => {
-  
-    return (
-        <View>
-            <ListItem>
-            <Left>
-              <Text>Mujer</Text>
-            </Left>
-            <Right>
-              <Radio onPress={props.onPress} selected={!props.genero_radio} />
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Left>
-              <Text>Hombre</Text>
-            </Left>
-            <Right>
-              <Radio onPress={props.onPress} selected={props.genero_radio} />
-            </Right>
-          </ListItem>
-        </View>
-    )
-} 
+  console.log(props)
+  return (
+    <View style={styles.container}>
+      <View >
+        <TouchableOpacity style={styles.radio_view} onPress={ props.onPress}>
+          <Text>Hombre</Text>
+          <Radio style={{ marginLeft: 30 }} selected={props.genero_radio} />
+        </TouchableOpacity>
+      </View>
+      <View >
+        <TouchableOpacity  style={styles.radio_view} onPress={ props.onPress}>
+          <Text>Mujer</Text>
+          <Radio style={{ marginLeft: 30 }} selected={!props.genero_radio} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
+const styles = StyleSheet.create({
+  container: {
+    //flex:1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: Dimensions.get('screen').width - 80,
+    marginBottom:10
+  },
+  radio_view: {
+    flexDirection: 'row',
+  }
+
+})
 export default RadioGenero

@@ -3,23 +3,23 @@ const INITIAL_STATE = {
     isFeching: true,
     error: false,
 }
-export default loginReducer = (state = INITIAL_STATE, action) => {
+export default ItemReducer = (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
 
-        case 'list_fiesta':
+        case 'item_fiesta':
             return {
                 ...state,
                 data: [],
                 isFeching: true
             }
-        case 'list_fiesta_data_succsess':
+        case 'item_fiesta_data_succsess':
             return {
                 ...state,
                 data: action.data,
                 isFeching: false
             }
-        case 'list_fiesta_data_error':
+        case 'item_fiesta_data_error':
         console.log(action.data)
             return {
                 ...state,
