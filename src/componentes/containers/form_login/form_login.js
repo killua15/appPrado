@@ -103,7 +103,7 @@ class FormLogin extends Component {
     }
     form_login_view = () => {
         return (
-            <View style={{marginTop:(Dimensions.get('screen').height*20)/100}}>
+            <View style={{marginTop:(Dimensions.get('screen').height*10)/100}}>
                 <Inputs
                     nameInput='user'
                     ContainerStyleLabel={styles.labelContain}

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
     text_prado: {
         ...material.display1,
-        marginTop: 100,
+        //marginTop: 100,
 
     }
 }) 
