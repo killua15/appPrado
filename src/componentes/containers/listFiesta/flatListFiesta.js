@@ -50,7 +50,7 @@ class FlatListFiesta extends Component {
         <Spinner color='blue'></Spinner>
         :
         <FlatList 
-          style={{height:Platform.OS == 'ios' ? Dimensions.get('screen').height-100 :Dimensions.get('screen').height-100 }}
+          style={{height:Platform.OS == 'ios' ? Dimensions.get('screen').height-100 : Dimensions.get('screen').height - 140 }}
           data={fiestas.data}
           renderItem={this.renderRow}
           keyExtractor={item => item.id}

@@ -191,7 +191,7 @@ class FormRegister extends Component {
     renderComponents = () => {
         return(
           
-            <View style={{alignItems:'center', height:((Dimensions.get('screen').height*100)/100)+100}}>
+            <View style={{alignItems:'center', height:((Dimensions.get('screen').height*100)/100)+150}}>
                 <Inputs
                     nameInput='nombre'
                     ContainerStyleLabel={styles.labelContain}

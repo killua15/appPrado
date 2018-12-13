@@ -26,7 +26,7 @@ export default class Register extends Component {
                     backIcon={true}
                     MenuIcon={false} />
               
-                   <ScrollView style={{marginTop: 20,height:Dimensions.get('screen').height-40}}>
+                   <ScrollView style={{marginTop: 20,height:Dimensions.get('screen').height-100}}>
                         <FormRegister navigation={this.props.navigation}> </FormRegister>
                    </ScrollView>
                
