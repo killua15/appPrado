@@ -19,8 +19,8 @@ export default class ListFiesta extends Component {
      
      backPressed = () => {
        Alert.alert(
-         'Exit App',
-         'Do you want to exit?',
+         'Cerrar  AppPrado',
+         'Decea cerrar la app?',
          [
            {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
            {text: 'Yes', onPress: () => BackHandler.exitApp()},
