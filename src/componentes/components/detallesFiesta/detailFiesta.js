@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Dimensions, ImageBackground } from 'react-native'
+import { View, StyleSheet, Dimensions, ImageBackground, Platform, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
+import { Text} from 'react-native-elements'
 import { itemAction } from '../../../redux/actions/itemAction'
 import { Spinner } from 'native-base';
 import { material } from 'react-native-typography'
@@ -47,13 +48,20 @@ class DetailFiesta extends Component {
 
                     </View>
                 </ImageBackground>
-                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:'grey', height:(Dimensions.get('screen').width * 15) / 100 }}>
-                 <Text style={{color:'#fff',marginRight:20}}>INFORMACION</Text>
-                 <Text style={{color:'#fff',marginRight:20}}>UBICACION</Text>
-                 <Text style={{color:'#fff'}}>COMENTARIOS</Text>
+                <View style={{ width: Dimensions.get('screen').width,justifyContent:'center', alignItems:'center', flexDirection: 'row',  backgroundColor: 'grey', height: (Dimensions.get('screen').width * 15) / 100 }}>
+                    <View>
+                    <Text style={{marginLeft:5, fontSize:Platform.OS == 'ios' ? 16 : 10}}>IFORMACION</Text>
+                    </View>
+                    <View>
+                    <Text style={{marginLeft:10, fontSize:Platform.OS == 'ios' ? 16 : 10}}> UBICACION </Text>
+                    </View>
+                    <View>
+                    <Text style={{marginLeft:10,fontSize:Platform.OS == 'ios' ? 16 : 10}}>COMENTARIOS </Text>
+                    </View>
                 </View>
-                <ViewDetailFiesta Item={this.props.itemFiesta.data} />
-
+                <ScrollView style={{ marginTop: 10, height: Platform.OS == 'ios' ? Dimensions.get('screen').height : Dimensions.get('screen').height - 50 }}>
+                    <ViewDetailFiesta Item={this.props.itemFiesta.data} />
+                </ScrollView>
 
             </View>
         )
@@ -116,7 +124,7 @@ const styles = StyleSheet.create({
         ...material.headline,
         color: '#fff',
         alignSelf: 'center'
-    }
+    },
 })
 const mapStateToProps = (state) => {
     const { itemFiesta } = state

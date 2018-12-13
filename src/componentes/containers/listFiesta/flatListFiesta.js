@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Dimensions, StyleSheet, FlatList } from 'react-native'
+import { View, Platform, Dimensions, StyleSheet, FlatList,PlatformIOS } from 'react-native'
 import { material } from 'react-native-typography'
 import ListItemFiesta from '../../components/listFiesta/listItemFiesta';
 import { connect } from 'react-redux'
@@ -50,7 +50,7 @@ class FlatListFiesta extends Component {
         <Spinner color='blue'></Spinner>
         :
         <FlatList 
-          style={{height:Dimensions.get('screen').height}}
+          style={{height:Platform.OS == 'ios' ? Dimensions.get('screen').height-100 :Dimensions.get('screen').height-100 }}
           data={fiestas.data}
           renderItem={this.renderRow}
           keyExtractor={item => item.id}
