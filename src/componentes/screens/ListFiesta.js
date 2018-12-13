@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Text, StyleSheet } from 'react-native'
+import { View, Platform, Text, StyleSheet,BackHandler,Alert } from 'react-native'
 import { Grid, Row, Form, Item, Label, Input } from 'native-base';
 import FormLogin from '../containers/form_login/form_login';
 import { material } from 'react-native-typography'
@@ -9,6 +9,25 @@ export default class ListFiesta extends Component {
     static navigationOptions = {
         header: null
     }
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+     }
+     
+     componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+     }
+     
+     backPressed = () => {
+       Alert.alert(
+         'Exit App',
+         'Do you want to exit?',
+         [
+           {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+           {text: 'Yes', onPress: () => BackHandler.exitApp()},
+         ],
+         { cancelable: false });
+         return true;
+     }
     render() {
         return (
 

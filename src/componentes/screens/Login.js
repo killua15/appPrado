@@ -13,7 +13,7 @@ export default class Login extends Component {
         this.state = {
             token:''
         }
-    }
+    }     
     async componentWillMount() {
         token = await this.getUserToken()
         if (token != 'none') {
@@ -22,7 +22,6 @@ export default class Login extends Component {
             this.setState({token:token})
         }
     }
-   
     getUserToken = async () => {
         let userId = '';
         try {
