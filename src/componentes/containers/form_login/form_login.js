@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
         //alignItems:'center' 
     },
     text_form_input: {
-        marginLeft: 10
+        marginLeft: 10,
+        width: Dimensions.get('screen').width - 100,
     },
     bottonLogin: {
         marginTop: 20,

@@ -25,11 +25,11 @@ export default class Register extends Component {
                     title='Registro'
                     backIcon={true}
                     MenuIcon={false} />
-                <View style={{ marginTop: 20, alignItems: 'center' }}>
-                    <ScrollView style={{height:Dimensions.get('screen').height-10}}>
-                        <FormRegister navigation={this.props.navigation} style={{ flex: 1 }}> </FormRegister>
-                    </ScrollView>
-                </View>
+              
+                   <ScrollView style={{marginTop: 20,height:Dimensions.get('screen').height-40}}>
+                        <FormRegister navigation={this.props.navigation}> </FormRegister>
+                   </ScrollView>
+               
 
             </View>
 

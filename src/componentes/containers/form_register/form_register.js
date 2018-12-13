@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions,AsyncStorage } from 'react-native'
+import { StyleSheet, Dimensions,AsyncStorage,ScrollView } from 'react-native'
 import { Spinner, Icon, Left, Item, Input } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
@@ -190,7 +190,8 @@ class FormRegister extends Component {
     }
     renderComponents = () => {
         return(
-            <View>
+          
+            <View style={{alignItems:'center', height:((Dimensions.get('screen').height*100)/100)+100}}>
                 <Inputs
                     nameInput='nombre'
                     ContainerStyleLabel={styles.labelContain}
@@ -259,6 +260,7 @@ class FormRegister extends Component {
                 >
                 </ButtonStyled>
             </View>
+            
         )
 
     }
@@ -280,7 +282,7 @@ const styles = StyleSheet.create({
     labelContain: {
         // marginBottom: ,
         // alignItems: 'center'
-        // width: Dimensions.get('screen').width - 50,
+        width: Dimensions.get('screen').width -100,
         // backgroundColor:"#fff"
     },
     label: {
@@ -298,7 +300,7 @@ const styles = StyleSheet.create({
         marginLeft: 0,
     },
     container_form_imput: {
-        width: Dimensions.get('screen').width - 70,
+        width: Dimensions.get('screen').width - 50,
         backgroundColor: "#fff",
         borderBottomWidth: 0,
         borderRadius: 10,
@@ -309,6 +311,7 @@ const styles = StyleSheet.create({
     },
     text_form_input: {
         marginLeft: 10,
+        width: Dimensions.get('screen').width - 70,
 
     },
     bottonLogin: {
@@ -318,6 +321,7 @@ const styles = StyleSheet.create({
     },
     bottonRegister: {
         marginTop: 10,
+        alignSelf:'center',
         width: Dimensions.get('screen').width - 70,
         // backgroundColor: 'red'
     }
