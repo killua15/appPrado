@@ -18,6 +18,8 @@ class FormRegister extends Component {
             errorID: '',
             date_birth: 'Fecha Nacimiento',
             email: 'Email',
+            pass:'Password',
+            errorPass: '',
             errorEmail: '',
             cod_rrpp: '',
             phone_cel: 'Celular',
@@ -80,6 +82,9 @@ class FormRegister extends Component {
         if (input == 'phone_cel') {
             this.setState({ phone_cel: '' })
         }
+        if (input == 'pass') {
+            this.setState({ pass: '' })
+        }
 
 
     }
@@ -109,6 +114,12 @@ class FormRegister extends Component {
                 this.setState({ phone_cel: 'No Celular' })
             }
         }
+        if (input == 'pass') {
+            if (this.state.pass == '') {
+                this.setState({ errorID: 'Campo Requerido' })
+            }
+        }
+
         if (input == 'email') {
             var patt = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/)
             var res = patt.test(this.state.email);
@@ -170,7 +181,7 @@ class FormRegister extends Component {
             this.state.errorEmail == '' && this.state.errorID == '' && this.state.errorName == '') {
             alert("Errores en los Campos")
         } else {
-             await this.props.registerAction(this.state.nombre,this.state.ID,
+             await this.props.registerAction(this.state.nombre,this.state.ID,this.state.pass,
                              this.state.date_birth,this.state.email,
                               this.state.cod_rrpp,this.state.phone_cel,this.state.genero)
         }
@@ -210,6 +221,19 @@ class FormRegister extends Component {
                     LabelStyleLabel={styles.label}
                     ContainerStyleFormImput={styles.container_form_imput}
                     valueInput={this.state.ID}
+                    InputStyleForm={styles.text_form_input}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    errorMessage={this.state.errorID}
+                    onChangeText={this.onChangeText}
+
+                />
+                 <Inputs
+                    nameInput='pass'
+                    ContainerStyleLabel={styles.labelContain}
+                    LabelStyleLabel={styles.label}
+                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInput={this.state.pass}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}

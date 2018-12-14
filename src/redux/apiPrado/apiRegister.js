@@ -1,4 +1,4 @@
-export default async (name,idDoc, birth,email,prCode,mobile,gender) => {
+export default async (name,idDoc,password, birth,email,prCode,mobile,gender) => {
     const URL ='http://bluemindapps.com/api/david/register'
     var data = {
         "name" :name ,
@@ -7,7 +7,8 @@ export default async (name,idDoc, birth,email,prCode,mobile,gender) => {
         "email" : email,
         "prCode" :prCode,
         "mobile" : mobile,
-        "gender" : gender
+        "gender" : gender,
+        "password":password
     }
    console.log(data)
    return await fetch(URL,{

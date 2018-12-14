@@ -19,10 +19,10 @@ export const RegisterError = data => {
     }
 }
 
-export const registerAction = (name,idDoc, birth,email,prCode,mobile,gender) => {
+export const registerAction = (name,idDoc,pass ,birth,email,prCode,mobile,gender) => {
     return (dispatch) => {
         dispatch(Register())
-        apiRegister(name,idDoc, birth,email,prCode,mobile,gender)
+        apiRegister(name,idDoc, pass,birth,email,prCode,mobile,gender)
         .then((json) => { dispatch(RegisterSuccsess(json)) })
         .catch((err)=>dispatch(RegisterError(err)))
 
