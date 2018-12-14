@@ -17,6 +17,8 @@ class FormLogin extends Component {
             errorUser: '',
             errorPass: '',
         }
+        console.log(Dimensions.get('screen').width + "X" + Dimensions.get('screen').height)
+        console.log(Dimensions.get('window').width + "X" + Dimensions.get('window').height)
        
     }
      saveTokenUser = async userId => {

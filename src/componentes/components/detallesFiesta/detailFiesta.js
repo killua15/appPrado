@@ -24,20 +24,21 @@ class DetailFiesta extends Component {
         await this.props.itemAction(this.props.idFiesta)
     }
     onClickAsistir = async () => {
+        console.log("asdasdsd")
         if(this.state.cod_f != ''){
             await this.props.goingAction(this.state.cod_f,this.props.idFiesta)
             Alert.alert(
                 'Informacion',
                 'ya te has anotado a la lista del evento...',
                 [
-                  {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 ]);
         }else{
             Alert.alert(
                 'Advertencia',
                 'Debe llenar el campo de Codigo',
                 [
-                  {text: 'Aceptar', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                  
                 ]);
         }
@@ -57,8 +58,7 @@ class DetailFiesta extends Component {
                     imageStyle={styles.imageStyleImageBackgroudn}>
 
                     <View style={styles.view_text}>
-                        <Item >
-                            
+                        <Item > 
                             <Input placeholder='Codigo RRPP'  onChangeText={this.onChangeTextCod}></Input>
                         </Item>
                     </View>
@@ -72,7 +72,7 @@ class DetailFiesta extends Component {
                                     <Text>Asistir</Text>
                                 </Button>
                                 :
-                                <Button block primary>
+                                <Button block primary  onPress={this.onClickAsistir}>
                                     <Text>Asistir</Text>
                                 </Button>
                         }
