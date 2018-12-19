@@ -5,18 +5,18 @@ const RadioGenero = (props) => {
   console.log(props)
   return (
     <View style={styles.container}>
-      <View >
+     
         <TouchableOpacity style={styles.radio_view} onPress={ () => props.onPress("male")}>
           <Text>Hombre</Text>
-          <Radio style={{ marginLeft: 30 }} selected={props.genero_radio} />
+          <Radio onPress={() => props.onPress("male") } style={{ marginLeft: 30 }} selected={props.genero_radio} />
         </TouchableOpacity>
-      </View>
-      <View >
+    
+      
         <TouchableOpacity  style={styles.radio_view} onPress={ () => props.onPress("female")}>
           <Text>Mujer</Text>
-          <Radio style={{ marginLeft: 30 }} selected={!props.genero_radio} />
+          <Radio onPress={() => props.onPress("female") }  style={{ marginLeft: 30 }} selected={!props.genero_radio} />
         </TouchableOpacity>
-      </View>
+
     </View>
   )
 }
