@@ -1,5 +1,6 @@
 export default async (name,idDoc,password, birth,email,prCode,mobile,gender) => {
     const URL ='http://bluemindapps.com/api/david/register'
+    console.log(gender)
     var data = {
         "name" :name ,
         "idDoc" : idDoc,

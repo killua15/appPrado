@@ -16,8 +16,8 @@ export default class ListFiesta extends Component {
      componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
      }
-     
      backPressed = () => {
+         console.log(this.props)
        Alert.alert(
          'Cerrar  AppPrado',
          'Decea cerrar la app?',

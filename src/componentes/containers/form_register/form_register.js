@@ -1,53 +1,57 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions,AsyncStorage,ScrollView } from 'react-native'
+import { StyleSheet, Dimensions, AsyncStorage, Keyboard,ScrollView } from 'react-native'
 import { Spinner, Icon, Left, Item, Input } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
+import { FormValidationMessage } from 'react-native-elements'
 import { registerAction } from '../../../redux/actions/registerAction'
 import Inputs from '../../components/form_login/inputs'
 import ButtonStyled from '../../components/buttons/button_styled';
 import DatePickerInput from '../../components/date_picker/date_picker_input';
 import RadioGenero from '../../components/radio_buttons/radio_genero';
+import DateTimePicker from 'react-native-modal-datetime-picker'
 class FormRegister extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nombre: 'Nombre y Apellidos',
+            nombre: 'Nombre y Apellido',
             errorName: '',
             ID: 'Documento sin puntos ni guiones',
             errorID: '',
             date_birth: 'Fecha Nacimiento',
             email: 'Email',
-            pass:'Password',
+            pass: 'Password',
             errorPass: '',
             errorEmail: '',
             cod_rrpp: '',
+            errorCodRRPP: '',
             phone_cel: 'Celular',
             errorCelular: '',
-            genero: 'Genero',
+            genero: 'male',
             genero_radio: true,
             statusButton: true,
-            danger: true
+            danger: true,
+            dateTimeVisible:false
         }
     }
     saveTokenUser = async userId => {
         try {
-          await AsyncStorage.setItem('tokenUser', userId);
+            await AsyncStorage.setItem('tokenUser', userId);
         } catch (error) {
-          // Error retrieving data
-          console.log(error.message);
+            // Error retrieving data
+            console.log(error.message);
         }
-      };
+    };
     shouldComponentUpdate(nP, nS) {
         if (JSON.stringify(this.props.register) !== JSON.stringify(nP.register)) {
             const { register } = nP
             console.log(nP)
-            if(nP.register.isFeching==false){
+            if (nP.register.isFeching == false) {
                 if (nP.register.data[1] == 201) {
                     console.log("entro")
                     this.saveTokenUser(nP.register.data[0].token)
                     this.props.navigation.navigate('ListFiesta')
-                }else{
+                } else {
                     alert("Error de Conexion")
                 }
             }
@@ -59,7 +63,7 @@ class FormRegister extends Component {
 
     onFocus = (input) => {
         if (input == 'nombre') {
-            if (this.state.nombre == '' || this.state.nombre == "Nombre y Apellidos") {
+            if (this.state.nombre == '' || this.state.nombre == "Nombre y Apellido") {
                 this.setState({ nombre: '' })
             }
         }
@@ -91,7 +95,7 @@ class FormRegister extends Component {
     onBlur = (input) => {
         if (input == 'nombre') {
             if (this.state.nombre == '') {
-                this.setState({ nombre: 'Nombre y Apellidos' })
+                this.setState({ nombre: 'Nombre y Apellido' })
             }
         }
         if (input == 'ID') {
@@ -116,9 +120,18 @@ class FormRegister extends Component {
         }
         if (input == 'pass') {
             if (this.state.pass == '') {
-                this.setState({ errorID: 'Campo Requerido' })
+                this.setState({ errorPass: 'Campo Requerido' })
+            }
+            else {
+                this.setState({ errorPass: '' })
             }
         }
+        if (this.state.cod_rrpp == '') {
+            this.setState({ errorCodRRPP: 'Campo Requerido' })
+        } else {
+            this.setState({ errorCodRRPP: '' })
+        }
+
 
         if (input == 'email') {
             var patt = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/)
@@ -172,37 +185,68 @@ class FormRegister extends Component {
         if (input == 'email') {
             this.setState({ email: val })
         }
-        if (input == 'email') {
-            this.setState({ email: val })
+        // if (input == 'email') {
+        //     this.setState({ email: val })
+        // }
+
+        if (input == 'pass') {
+            this.setState({ pass: val })
         }
     }
-    onPressButtonRegister =  async () => {
+    onPressButtonRegister = async () => {
         if (this.state.date_birth == null && this.state.errorCelular == '' &&
             this.state.errorEmail == '' && this.state.errorID == '' && this.state.errorName == '') {
             alert("Errores en los Campos")
         } else {
-             await this.props.registerAction(this.state.nombre,this.state.ID,this.state.pass,
-                             this.state.date_birth,this.state.email,
-                              this.state.cod_rrpp,this.state.phone_cel,this.state.genero)
+            await this.props.registerAction(this.state.nombre, this.state.ID, this.state.pass,
+                this.state.date_birth, this.state.email,
+                this.state.cod_rrpp, this.state.phone_cel, this.state.genero)
         }
     }
-    onChangeTextPrrCode = (val) =>{
-        this.setState({cod_rrpp:val})
+    onChangeTextPrrCode = (val) => {
+        this.setState({ cod_rrpp: val })
     }
     onDateChange = (val) => {
         this.setState({ date_birth: val })
     }
-    onPressRadio = () => {
-        console.log("select")
-        this.setState({ genero_radio: !this.state.genero_radio })
+    onPressRadio = (val) => {
+        console.log(val)
+        if (val != this.state.genero) {
+            this.setState({ genero_radio: !this.state.genero_radio })
+            this.setState({ genero: val })
+        }
+
     }
     onClickButtonAlertCodigo = () => {
         alert("Ha pinchado boton RRPP")
     }
+    onFocusDate = () =>{
+        Keyboard.dismiss
+        if(this.state.dateTimeVisible == false){
+            this.setState({dateTimeVisible:true})
+        }
+       
+    }
+    hideDatePicker  = () =>{
+        this.setState({dateTimeVisible:false})
+    }
+    hideDatePickerConfirm = (date) => {
+        //console.log(date.toString())
+        var d = new Date(date)
+        var month = '' + (d.getMonth() + 1)
+        var day = '' + d.getDate()
+        var year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    fechaFinal = [year, month, day].join('-')
+          this.setState({date_birth:fechaFinal})
+          this.setState({dateTimeVisible:false})
+    }
     renderComponents = () => {
-        return(
-          
-            <View style={{alignItems:'center', height:((Dimensions.get('screen').height*100)/100)+150}}>
+        return (
+
+            <View style={{ alignItems: 'center', height: ((Dimensions.get('screen').height * 100) / 100) + 150 }}>
                 <Inputs
                     nameInput='nombre'
                     ContainerStyleLabel={styles.labelContain}
@@ -228,7 +272,7 @@ class FormRegister extends Component {
                     onChangeText={this.onChangeText}
 
                 />
-                 <Inputs
+                <Inputs
                     nameInput='pass'
                     ContainerStyleLabel={styles.labelContain}
                     LabelStyleLabel={styles.label}
@@ -237,11 +281,29 @@ class FormRegister extends Component {
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
-                    errorMessage={this.state.errorID}
+                    errorMessage={this.state.errorPass}
                     onChangeText={this.onChangeText}
 
                 />
-                <DatePickerInput onDateChange={this.onDateChange}></DatePickerInput>
+                <Inputs
+                    nameInput='date'
+                    ContainerStyleLabel={styles.labelContain}
+                    LabelStyleLabel={styles.label}
+                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInput={this.state.date_birth}
+                    InputStyleForm={styles.text_form_input}
+                    onFocus={this.onFocusDate}
+                    onBlur={this.hideDatePicker}
+                    //errorMessage={this.state.errorName}
+                    onChangeText={this.onChangeText}
+                />
+                   <DateTimePicker
+                     isVisible={this.state.dateTimeVisible}
+                     onConfirm={this.hideDatePickerConfirm}
+                     onCancel={this.hideDatePicker}
+                   ></DateTimePicker>
+                    {/* <DatePickerInput onDateChange={this.onDateChange}></DatePickerInput> */}
+              
                 <Inputs
                     nameInput='email'
                     ContainerStyleLabel={styles.labelContain}
@@ -270,13 +332,17 @@ class FormRegister extends Component {
                 />
                 <RadioGenero genero_radio={this.state.genero_radio} onPress={this.onPressRadio} style={{ marginTop: 5 }}></RadioGenero>
                 <Item regular style={styles.item_input_text}>
-                    <Input 
-                    placeholder='Codigo RRPP' 
-                    onChangeText={this.onChangeTextPrrCode}
+                    <Input
+                        style={{ height: 40 }}
+                        onBlur={this.onBlur}
+                        placeholder='Codigo RRPP'
+                        onChangeText={this.onChangeTextPrrCode}
                     >{this.state.cod_rrpp}
                     </Input>
                     <Icon onPress={this.onClickButtonAlertCodigo} style={{ marginLeft: 5 }} name='checkmark-circle' />
                 </Item>
+                <FormValidationMessage>{this.state.errorCodRRPP}
+                </FormValidationMessage>
                 <ButtonStyled
                     styleBotton={styles.bottonRegister}
                     TextBotton='Registrar'
@@ -284,7 +350,7 @@ class FormRegister extends Component {
                 >
                 </ButtonStyled>
             </View>
-            
+
         )
 
     }
@@ -292,9 +358,9 @@ class FormRegister extends Component {
         const { register } = this.props
         return (
             register.isFeching == true ?
-            <Spinner color='blue'></Spinner>
-            :
-            this.renderComponents()
+                <Spinner color='blue'></Spinner>
+                :
+                this.renderComponents()
 
         )
     }
@@ -306,7 +372,7 @@ const styles = StyleSheet.create({
     labelContain: {
         // marginBottom: ,
         // alignItems: 'center'
-        width: Dimensions.get('screen').width -100,
+        width: Dimensions.get('screen').width - 100,
         // backgroundColor:"#fff"
     },
     label: {
@@ -315,20 +381,33 @@ const styles = StyleSheet.create({
     },
     item_input_text: {
         marginBottom: 15,
-        width: Dimensions.get('screen').width - 70,
-        borderBottomWidth: 0,
+        width: Dimensions.get('screen').width - 50,
+        borderBottomWidth: 2,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#ededed',
         backgroundColor: "#fff",
         marginLeft: 0,
+        marginTop: 5
+    },
+    item_input_date: {
+        marginBottom: 15,
+        width: Dimensions.get('screen').width - 50,
+        height:40,
+        borderBottomWidth: 2,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#ededed',
+        backgroundColor: "#fff",
+        marginLeft: -5,
+        marginTop: 5
     },
     container_form_imput: {
         width: Dimensions.get('screen').width - 50,
         backgroundColor: "#fff",
-        borderBottomWidth: 0,
+        borderBottomWidth: 1,
         borderRadius: 10,
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: '#ededed',
         marginLeft: 0,
         //alignItems:'center' 
@@ -345,7 +424,7 @@ const styles = StyleSheet.create({
     },
     bottonRegister: {
         marginTop: 10,
-        alignSelf:'center',
+        alignSelf: 'center',
         width: Dimensions.get('screen').width - 70,
         // backgroundColor: 'red'
     }
@@ -356,8 +435,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        registerAction: (name, idDoc, birth, email, prCode, mobile, gender) =>
-            dispatch(registerAction(name, idDoc, birth, email, prCode, mobile, gender))
+        registerAction: (name, idDoc, pass, birth, email, prCode, mobile, gender) =>
+            dispatch(registerAction(name, idDoc, pass, birth, email, prCode, mobile, gender))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FormRegister) 

@@ -20,6 +20,7 @@ export const RegisterError = data => {
 }
 
 export const registerAction = (name,idDoc,pass ,birth,email,prCode,mobile,gender) => {
+    
     return (dispatch) => {
         dispatch(Register())
         apiRegister(name,idDoc, pass,birth,email,prCode,mobile,gender)

@@ -15,8 +15,10 @@ export default class Login extends Component {
         }
     }     
     async componentWillMount() {
+        console.log(this.props.navigation)
         token = await this.getUserToken()
         if (token != 'none') {
+            BackHandler.exitApp()
             this.props.navigation.navigate('ListFiesta')
         }else{
             this.setState({token:token})

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Dimensions, StyleSheet, FlatList,PlatformIOS } from 'react-native'
+import { View, Platform, Dimensions, StyleSheet, FlatList,BackHandler } from 'react-native'
 import { material } from 'react-native-typography'
 import ListItemFiesta from '../../components/listFiesta/listItemFiesta';
 import { connect } from 'react-redux'

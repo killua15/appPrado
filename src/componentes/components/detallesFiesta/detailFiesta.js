@@ -59,7 +59,7 @@ class DetailFiesta extends Component {
 
                     <View style={styles.view_text}>
                         <Item > 
-                            <Input placeholder='Codigo RRPP'  onChangeText={this.onChangeTextCod}></Input>
+                            <Input placeholder='Codigo Evento'  onChangeText={this.onChangeTextCod}></Input>
                         </Item>
                     </View>
                     <View style={{ alignSelf: 'center', width: (Dimensions.get('screen').width * 70) / 100 }}>

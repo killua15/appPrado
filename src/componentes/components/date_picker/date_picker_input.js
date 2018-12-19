@@ -11,7 +11,7 @@ const DatePickerInput = (props) => {
             //maximumDate={new Date(2018, 12, 31)}
             locale={"en"}
             timeZoneOffsetInMinutes={undefined}
-            modalTransparent={false}
+            modalTransparent={true}
             animationType={"fade"}
             androidMode={"default"}
             placeHolderText="Fecha Nacimiento"
