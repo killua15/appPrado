@@ -1,6 +1,6 @@
 export default async () => {
     //Para poder probar la lista de fiestas
-    var URL = 'http://bluemindapps.com/api/david/event'
+    var URL = 'http://nocheynoche.com/api/event'
     var data = {
         "token": "eltototoken",
     }

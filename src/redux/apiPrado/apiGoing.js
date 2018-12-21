@@ -1,6 +1,6 @@
 export default async (codFiesta,idFiesta) => {
     //Para poder probar la lista de fiestas
-    var URL = 'http://bluemindapps.com/api/david/event/going'
+    var URL = 'http://nocheynoche.com/api/event/going'
     var data = {
         "code": codFiesta,
         "eventId": idFiesta

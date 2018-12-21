@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Text, Dimensions, StyleSheet, AsyncStorage } from 'react-native'
+import { View, Platform, Text, Dimensions, StyleSheet, AsyncStorage,BackHandler} from 'react-native'
 import { Grid, Row, Form, Item, Label, Input, Spinner } from 'native-base';
 import FormLogin from '../containers/form_login/form_login';
 import { material } from 'react-native-typography'

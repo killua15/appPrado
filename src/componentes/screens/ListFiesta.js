@@ -36,7 +36,7 @@ export default class ListFiesta extends Component {
                     color='red'
                     title='Fiestas'
                     backIcon={false}
-                    MenuIcon={false}
+                    MenuIcon={true}
                 />
                 <View style={styles.container}>
                    <FlatListFiesta navigation={this.props.navigation}></FlatListFiesta>

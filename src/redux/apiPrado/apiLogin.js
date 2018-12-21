@@ -1,5 +1,5 @@
 export default async (user,pass) => {
-    const URL ='http://bluemindapps.com/api/david/login'
+    const URL ='http://nocheynoche.com/api/login'
     var data = {
         "idDoc": user,
         "password": pass

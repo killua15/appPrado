@@ -31,7 +31,7 @@ class FormRegister extends Component {
             genero_radio: true,
             statusButton: true,
             danger: true,
-            dateTimeVisible:false
+            dateTimeVisible:false,
         }
     }
     saveTokenUser = async userId => {
@@ -52,7 +52,7 @@ class FormRegister extends Component {
                     this.saveTokenUser(nP.register.data[0].token)
                     this.props.navigation.navigate('ListFiesta')
                 } else {
-                    alert("Error de Conexion")
+                    alert(nP.register.data[0].error.name)
                 }
             }
         }
@@ -194,8 +194,10 @@ class FormRegister extends Component {
         }
     }
     onPressButtonRegister = async () => {
-        if (this.state.date_birth == null && this.state.errorCelular == '' &&
-            this.state.errorEmail == '' && this.state.errorID == '' && this.state.errorName == '') {
+        console.log(this.state)
+        if (this.state.errorName!='' || this.state.errorID != '' || this.state.errorPass!=''
+ || this.state.errorEmail!='' || this.state.errorCelular != '' || this.state.errorCodRRPP != ''
+            || this.state.date_birth ==''){
             alert("Errores en los Campos")
         } else {
             await this.props.registerAction(this.state.nombre, this.state.ID, this.state.pass,

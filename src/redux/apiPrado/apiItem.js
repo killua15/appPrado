@@ -1,6 +1,6 @@
 export default async (id) => {
     //Para poder probar la lista de fiestas
-    var URL = `http://bluemindapps.com/api/david/event/${id}`
+    var URL = `http://nocheynoche.com/api/event/${id}`
     console.log(URL)
     return await fetch(URL, {
         method: 'GET',
