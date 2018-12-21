@@ -16,7 +16,7 @@ const ListItemFiesta = (props) => {
       style={{ alignItems: 'center', marginTop: 10 }}
       onPress={() => props.onHandleDetalleFiesta(props.item)}>
       <ImageBackground
-        source={{ uri: thumb }}
+        source={{ uri: `http://nocheynoche.com/storage/${thumb}`}}
         style={styles.view_imageBackgroud}
         imageStyle={styles.imageStyleImageBackgroudn}>
         <View style={styles.view_text}>

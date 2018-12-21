@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Dimensions, StyleSheet, FlatList,BackHandler } from 'react-native'
+import { View, Platform, Dimensions, StyleSheet, FlatList,AsyncStorage } from 'react-native'
 import { material } from 'react-native-typography'
 import ListItemFiesta from '../../components/listFiesta/listItemFiesta';
 import { connect } from 'react-redux'
@@ -17,6 +17,18 @@ class FlatListFiesta extends Component {
   onHandleDetalleFiesta = (item) => {
     this.props.navigation.navigate('DetallesFiesta', { id: item.id })
   }
+  getUserToken = async () => {
+    let userId = '';
+    try {
+        userId = await AsyncStorage.getItem('tokenUser') || 'none';
+    } catch (error) {
+        // Error retrieving data
+        console.log(error.message);
+    }
+    console.log(userId)
+    return userId;
+
+}
   renderRow = ({ item }) => {
     console.log(item)
     return (
@@ -28,7 +40,8 @@ class FlatListFiesta extends Component {
   }
   getDataList = async () => {
     //console.log(this.props)
-    await this.props.fiestaAction()
+    var token = await this.getUserToken();
+    await this.props.fiestaAction(token)
   }
   render() {
     const { fiestas } = this.props
@@ -65,7 +78,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fiestaAction: () => dispatch(fiestaAction())
+    fiestaAction: (token) => dispatch(fiestaAction(token))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FlatListFiesta)

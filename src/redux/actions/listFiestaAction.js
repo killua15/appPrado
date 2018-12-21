@@ -17,10 +17,10 @@ export const ListFiestaError = data => {
     }
 }
 
-export const fiestaAction = () => {
+export const fiestaAction =  (t) => {
     return (dispatch) => {
         dispatch(ListFiesta())
-         apiList()
+         apiList(t)
         .then((json) => { dispatch(ListFiestaSuccsess(json)) })
         .catch((err)=>dispatch(ListFiestaError(err)))
 

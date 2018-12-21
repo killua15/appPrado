@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Alert,StyleSheet, Dimensions, ImageBackground, Platform, ScrollView } from 'react-native'
+import { View, Alert,StyleSheet, Dimensions, ImageBackground, Platform, ScrollView,AsyncStorage} from 'react-native'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { Text } from 'react-native-elements'
@@ -21,10 +21,24 @@ class DetailFiesta extends Component {
     }
     async componentWillMount() {
         console.log(this.props.idFiesta)
-        await this.props.itemAction(this.props.idFiesta)
+        var token = await this.getUserToken()
+        await this.props.itemAction(this.props.idFiesta,token)
+    }
+    getUserToken = async () => {
+        let userId = '';
+        try {
+            userId = await AsyncStorage.getItem('tokenUser') || 'none';
+        } catch (error) {
+            // Error retrieving data
+            console.log(error.message);
+        }
+        console.log(userId)
+        return userId;
+    
     }
     onClickAsistir = async () => {
         console.log("asdasdsd")
+       
         if(this.state.cod_f != ''){
             await this.props.goingAction(this.state.cod_f,this.props.idFiesta)
             Alert.alert(
@@ -47,13 +61,14 @@ class DetailFiesta extends Component {
     onChangeTextCod = (val) =>{
            this.setState({cod_f:val})
     }
+    
     renderDetails = () => {
         const { image, title, date, text } = this.props.itemFiesta.data[0]
         console.log(image)
         return (
             <View style={styles.container}>
                 <ImageBackground
-                    source={{ uri: image }}
+                    source={{ uri: `http://nocheynoche.com/storage/${image}` }}
                     style={styles.view_imageBackgroud}
                     imageStyle={styles.imageStyleImageBackgroudn}>
 
@@ -166,7 +181,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
        
-            itemAction: (id) => dispatch(itemAction(id)),   
+            itemAction: (id,token) => dispatch(itemAction(id,token)),   
             goingAction: (cod_f,id_f) => dispatch(goingAction(cod_f,id_f))
           
        

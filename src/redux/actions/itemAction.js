@@ -18,11 +18,11 @@ export const ItemFiestaError = data => {
     }
 }
 
-export const itemAction = (id) => {
+export const itemAction = (id,t) => {
     return (dispatch) => {
         dispatch(ItemFiesta())
-        console.log(id)
-         apiItem(id)
+        console.log(t)
+         apiItem(id,t)
         .then((json) => { dispatch(ItemFiestaSuccsess(json)) })
         .catch((err)=>dispatch(ItemFiestaError(err)))
 
