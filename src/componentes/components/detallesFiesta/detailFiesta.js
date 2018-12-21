@@ -38,9 +38,10 @@ class DetailFiesta extends Component {
     }
     onClickAsistir = async () => {
         console.log("asdasdsd")
-       
+         var token = await this.getUserToken()
         if(this.state.cod_f != ''){
-            await this.props.goingAction(this.state.cod_f,this.props.idFiesta)
+            await this.props.goingAction(this.state.cod_f,this.props.idFiesta,token)
+            this.setState({cod_f:''})
             Alert.alert(
                 'Informacion',
                 'ya te has anotado a la lista del evento...',

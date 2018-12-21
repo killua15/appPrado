@@ -19,10 +19,10 @@ export const GoingError = data => {
     }
 }
 
-export const goingAction = (cod_f,id_f) => {
+export const goingAction = (cod_f,id_f,t) => {
     return (dispatch) => {
         dispatch(Going())
-        apiGoing(cod_f,id_f)
+        apiGoing(cod_f,id_f,t)
         .then((json) => { dispatch(GoingSuccsess(json)) })
         .catch((err)=>dispatch(GoingError(err)))
 
