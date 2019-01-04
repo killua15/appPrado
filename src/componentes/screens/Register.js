@@ -21,7 +21,7 @@ export default class Register extends Component {
             <View style={styles.container}>
                 <HeaderBar
                     onHandleBackButton={this.onHandleBackButton}
-                    color='red'
+                    color='#fff'
                     title='Registro'
                     backIcon={true}
                     MenuIcon={false} />
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         // marginTop: 80,
         // alignItems: 'center',
         //flex: 1
+        backgroundColor:'#E0E0E0',
 
     },
     text_color: {

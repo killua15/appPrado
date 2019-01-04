@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, AsyncStorage, Keyboard,ScrollView } from 'react-native'
-import { Spinner, Icon, Left, Item, Input } from 'native-base';
+import { StyleSheet, Dimensions, AsyncStorage, Keyboard,ScrollView,TouchableOpacity,Text} from 'react-native'
+import { Spinner, Left, Item, Input } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { FormValidationMessage } from 'react-native-elements'
@@ -10,6 +10,8 @@ import ButtonStyled from '../../components/buttons/button_styled';
 import DatePickerInput from '../../components/date_picker/date_picker_input';
 import RadioGenero from '../../components/radio_buttons/radio_genero';
 import DateTimePicker from 'react-native-modal-datetime-picker'
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from '../../iconsObjet/Icon';
 class FormRegister extends Component {
     constructor(props) {
         super(props)
@@ -60,7 +62,55 @@ class FormRegister extends Component {
         return true
 
     }
+    validarCampos = (input) => {
+        if (input == 'nombre') {
+            if (this.state.nombre == '' || this.state.nombre == "Nombre y Apellido") {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
+        if (input == 'ID') {
+            if (this.state.ID == '' || this.state.ID == "Documento sin puntos ni guiones") {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
+        if (input == 'email') {
+            if (this.state.email == '' || this.state.email == "Email") {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
+        if (input == 'cel_phone') {
+            if (this.state.phone_cel == '' || this.state.phone_cel == "Celular") {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
+        if (input == 'cod_rrpp') {
+            if (this.state.cod_rrpp == '' ) {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
+        // if (input == 'phone_cel') {
+        //     this.setState({ phone_cel: '' })
+        // }
+        if (input == 'pass') {
+            if (this.state.pass == '' || this.state.phone_cel == "Password") {
+                this.setState({statusButton:true})
+            }else{
+                this.setState({statusButton:false})
+            }
+        }
 
+
+    }
     onFocus = (input) => {
         if (input == 'nombre') {
             if (this.state.nombre == '' || this.state.nombre == "Nombre y Apellido") {
@@ -120,6 +170,7 @@ class FormRegister extends Component {
         }
         if (input == 'pass') {
             if (this.state.pass == '') {
+                this.setState({ pass: 'Password' })
                 this.setState({ errorPass: 'Campo Requerido' })
             }
             else {
@@ -149,7 +200,9 @@ class FormRegister extends Component {
         if (input == 'nombre') {
             var patt = new RegExp(/^[A-Za-z\s]+$/g)
             var res = patt.test(val);
-            console.log(res)
+            if(val == ''){
+                this.setState({ nombre: val })  
+            }
             if (res) {
                 this.setState({ nombre: val })
                 this.setState({ errorName: '' })
@@ -195,9 +248,7 @@ class FormRegister extends Component {
     }
     onPressButtonRegister = async () => {
         console.log(this.state)
-        if (this.state.errorName!='' || this.state.errorID != '' || this.state.errorPass!=''
- || this.state.errorEmail!='' || this.state.errorCelular != '' || this.state.errorCodRRPP != ''
-            || this.state.date_birth ==''){
+        if(this.state.statusButton){
             alert("Errores en los Campos")
         } else {
             await this.props.registerAction(this.state.nombre, this.state.ID, this.state.pass,
@@ -247,57 +298,52 @@ class FormRegister extends Component {
     }
     renderComponents = () => {
         return (
-
             <View style={{ alignItems: 'center', height: ((Dimensions.get('screen').height * 100) / 100) + 150 }}>
                 <Inputs
                     nameInput='nombre'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
                     valueInput={this.state.nombre}
+                    valueInputPlaceholder='Nombre y Apellidos'
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorName}
                     onChangeText={this.onChangeText}
+                    requireText='*'
                 />
                 <Inputs
                     nameInput='ID'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInputPlaceholder='Documentos sin puntos y guiones'
                     valueInput={this.state.ID}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorID}
                     onChangeText={this.onChangeText}
+                    requireText='*'
 
                 />
                 <Inputs
                     nameInput='pass'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInputPlaceholder='Contrasenna'
                     valueInput={this.state.pass}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorPass}
                     onChangeText={this.onChangeText}
+                    requireText='*'
 
                 />
                 <Inputs
                     nameInput='date'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInputPlaceholder='Fecha de Nacimiento'
                     valueInput={this.state.date_birth}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocusDate}
                     onBlur={this.hideDatePicker}
                     //errorMessage={this.state.errorName}
                     onChangeText={this.onChangeText}
+                    requireText='*'
                 />
                    <DateTimePicker
                      isVisible={this.state.dateTimeVisible}
@@ -308,28 +354,26 @@ class FormRegister extends Component {
               
                 <Inputs
                     nameInput='email'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInputPlaceholder='Email'
                     valueInput={this.state.email}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorEmail}
                     onChangeText={this.onChangeText}
+                    requireText='*'
 
                 />
                 <Inputs
                     nameInput='cel_phone'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    valueInputPlaceholder='Celular'
                     valueInput={this.state.phone_cel}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     errorMessage={this.state.errorCelular}
                     onChangeText={this.onChangeText}
+                    requireText='*'
 
                 />
                 <RadioGenero genero_radio={this.state.genero_radio} onPress={this.onPressRadio} style={{ marginTop: 5 }}></RadioGenero>
@@ -341,16 +385,24 @@ class FormRegister extends Component {
                         onChangeText={this.onChangeTextPrrCode}
                     >{this.state.cod_rrpp}
                     </Input>
-                    <Icon onPress={this.onClickButtonAlertCodigo} style={{ marginLeft: 5 }} name='checkmark-circle' />
+                    <Icon onPress={this.onClickButtonAlertCodigo}fill='#A40031' style={{ color:'#A40031', marginLeft: 5 }} name='Check' />
                 </Item>
                 <FormValidationMessage>{this.state.errorCodRRPP}
                 </FormValidationMessage>
-                <ButtonStyled
+                <TouchableOpacity onPress={this.onPressButtonRegister} style={{ borderRadius: 100 }}>
+                    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.linearGradient} colors={['#A40031', '#1D182B']}>
+
+                        <Text style={styles.buttonText}>
+                           Registrarse
+                    </Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+                {/* <ButtonStyled
                     styleBotton={styles.bottonRegister}
                     TextBotton='Registrar'
                     onPressButton={this.onPressButtonRegister}
                 >
-                </ButtonStyled>
+                </ButtonStyled> */}
             </View>
 
         )
@@ -382,15 +434,17 @@ const styles = StyleSheet.create({
 
     },
     item_input_text: {
-        marginBottom: 15,
+        marginLeft: 10,
         width: Dimensions.get('screen').width - 50,
+        borderColor: '#fff',
+        borderTopWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
         borderBottomWidth: 2,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: '#ededed',
-        backgroundColor: "#fff",
-        marginLeft: 0,
-        marginTop: 5
+        paddingLeft: 5,
+        borderRadius: 30,
+        opacity: 0.8,
+        backgroundColor: '#fff'
     },
     item_input_date: {
         marginBottom: 15,
@@ -416,8 +470,16 @@ const styles = StyleSheet.create({
     },
     text_form_input: {
         marginLeft: 10,
-        width: Dimensions.get('screen').width - 70,
-
+        width: Dimensions.get('screen').width - 50,
+        borderColor: '#fff',
+        borderTopWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderBottomWidth: 2,
+        paddingLeft: 5,
+        borderRadius: 30,
+        opacity: 0.8,
+        backgroundColor: '#fff'
     },
     bottonLogin: {
         marginTop: 20,
@@ -429,7 +491,22 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: Dimensions.get('screen').width - 70,
         // backgroundColor: 'red'
-    }
+    },
+    linearGradient: {
+        //flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 30,
+        width: Dimensions.get('screen').width - 70,
+    },
+    buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 15,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+    },
 })
 const mapStateToProps = (state) => {
     const { register } = state

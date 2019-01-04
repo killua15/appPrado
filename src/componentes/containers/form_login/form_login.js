@@ -1,34 +1,38 @@
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, Text,AsyncStorage,Platform } from 'react-native'
-import { Row, Spinner } from 'native-base';
+import { StyleSheet, Dimensions, Text, AsyncStorage, Platform, TouchableOpacity } from 'react-native'
+import { Row, Spinner, Left } from 'native-base';
 import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { loginAction } from '../../../redux/actions/loginAction'
 import Inputs from '../../components/form_login/inputs'
 import ButtonStyled from '../../components/buttons/button_styled';
-
+import LinearGradient from 'react-native-linear-gradient';
+// import { createIconSetFromFontello } from 'react-native-vector-icons';
+//  import fontelloConfig from '../../../fonts/user.json';
+//  console.log(fontelloConfig)
+//  const IconUser = createIconSetFromFontello(fontelloConfig);
 class FormLogin extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            usuario: 'ID',
+            usuario: 'Usuario',
             pass: 'Password',
             errorUser: '',
             errorPass: '',
         }
         console.log(Dimensions.get('screen').width + "X" + Dimensions.get('screen').height)
         console.log(Dimensions.get('window').width + "X" + Dimensions.get('window').height)
-       
+
     }
-     saveTokenUser = async userId => {
+    saveTokenUser = async userId => {
         try {
-          await AsyncStorage.setItem('tokenUser', userId);
+            await AsyncStorage.setItem('tokenUser', userId);
         } catch (error) {
-          // Error retrieving data
-          console.log(error.message);
+            // Error retrieving data
+            console.log(error.message);
         }
-      };
+    };
     shouldComponentUpdate(nP, nS) {
         if (JSON.stringify(this.props.login) !== JSON.stringify(nP.login)) {
             const { login } = nP
@@ -45,8 +49,8 @@ class FormLogin extends Component {
                 //console.log(nP.login.data[0].token)
                 this.saveTokenUser(nP.login.data[0].token)
                 this.props.navigation.navigate('ListFiesta')
-              
-             
+
+
 
 
             }
@@ -71,7 +75,7 @@ class FormLogin extends Component {
     onBlur = (input) => {
         if (input == 'user') {
             if (this.state.usuario == '') {
-                this.setState({ usuario: 'ID' })
+                this.setState({ usuario: 'Usuario' })
             }
         }
         if (input == 'pass') {
@@ -106,12 +110,13 @@ class FormLogin extends Component {
     }
     form_login_view = () => {
         return (
-            <View style={{marginTop:Platform.OS === 'ios' ? (Dimensions.get('window').height*15)/100 : (Dimensions.get('window').height*5)/100}}>
+            <View style={{  marginTop: Platform.OS === 'ios' ? (Dimensions.get('window').height * 15) / 100 : (Dimensions.get('window').height * 5) / 100 }}>
                 <Inputs
                     nameInput='user'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    iconName='User'
+                    fillIcon='#A40031'
+                    viewBox=''
+                    valueInputPlaceholder='Usuario'
                     valueInput={this.state.usuario}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
@@ -122,9 +127,10 @@ class FormLogin extends Component {
                 />
                 <Inputs
                     nameInput='pass'
-                    ContainerStyleLabel={styles.labelContain}
-                    LabelStyleLabel={styles.label}
-                    ContainerStyleFormImput={styles.container_form_imput}
+                    iconName='Password'
+                    fillIcon='#A40031'
+                    viewBox=''
+                    valueInputPlaceholder='Password'
                     valueInput={this.state.pass}
                     InputStyleForm={styles.text_form_input}
                     onFocus={this.onFocus}
@@ -134,23 +140,34 @@ class FormLogin extends Component {
                     labelStyle={{ paddingBottom: 10 }}
 
                 />
-                <ButtonStyled
-                    styleBotton={styles.bottonLogin}
-                    TextBotton='Login'
-                    onPressButton={this.onPressButtonLogin}
-                >
-                </ButtonStyled>
 
-                <ButtonStyled
+                <TouchableOpacity onPress={this.onPressButtonLogin} style={{ borderRadius: 100 }}>
+                    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.linearGradient} colors={['#A40031', '#1D182B']}>
+
+                        <Text style={styles.buttonText}>
+                            Iniciar Sesion
+                    </Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+                <View style={{ marginTop: 30, flexDirection: 'row' }}>
+                    <TouchableOpacity style={{marginRight:50}} onPress={this.onPressButtonRegister}>
+                        <Text style={{ width:Dimensions.get('screen').width/3 ,fontSize: 12, color: '#A40031' }}>Registrarse</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Text style={{ textAlign:'right', width:Dimensions.get('screen').width/3,fontSize: 12, color: '#A40031' }}>Ayuda</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* <ButtonStyled
                     styleBotton={styles.bottonRegister}
                     TextBotton='Registrar'
                     onPressButton={this.onPressButtonRegister}
                 >
-                </ButtonStyled>
+                </ButtonStyled> */}
                 <View style>
                     <Text style={{ marginTop: 30, color: 'red', alignItems: 'center' }}>{this.state.errorMessage}</Text>
                 </View>
-
+       
             </View>
         )
 
@@ -180,32 +197,48 @@ const styles = StyleSheet.create({
         // backgroundColor:"#fff"
     },
     label: {
-        color: 'blue',
-
+        color: 'blue'
     },
-    container_form_imput: {
-        width: Dimensions.get('screen').width - 70,
-        backgroundColor: "#fff",
-        borderBottomWidth: 0,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: '#ededed',
-        marginLeft: 0,
-        //alignItems:'center' 
+    linearGradient: {
+        //flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 30,
+    },
+    buttonText: {
+        fontSize: 14,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 12,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
     },
     text_form_input: {
         marginLeft: 10,
         width: Dimensions.get('screen').width - 100,
+        borderColor: '#fff',
+        borderTopWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderBottomWidth: 2,
+        paddingLeft: 5,
+        borderRadius: 30,
+        opacity: 0.8,
+        backgroundColor: '#fff'
     },
     bottonLogin: {
-        marginTop: 20,
-        width: Dimensions.get('screen').width - 70,
+        marginTop: 10,
+        marginLeft: 10,
+        width: Dimensions.get('screen').width - 100,
         paddingLeft: 10,
+        backgroundColor: '#A40031',
+        alignContent: 'center'
     },
     bottonRegister: {
         marginTop: 10,
         width: Dimensions.get('screen').width - 70,
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+        borderRadius: 30,
     }
 })
 const mapStateToProps = (state) => {

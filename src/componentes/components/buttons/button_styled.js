@@ -7,13 +7,11 @@ const ButtonStyled = (props) => {
       style={props.styleBotton}
       onPress={props.onPressButton}
       disabled={props.statusButton}
-      danger={props.danger}
-      primary={props.primary}
-      success={props.success}
+      rounded
 
     >
       <Text>{props.TextBotton}</Text>
-      <Icon name='arrow-forward' />
+      {/* <Icon name='arrow-forward' /> */}
     </Button>
   )
 }

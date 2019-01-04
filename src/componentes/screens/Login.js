@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Platform, Text, Dimensions, StyleSheet, AsyncStorage,BackHandler} from 'react-native'
-import { Grid, Row, Form, Item, Label, Input, Spinner } from 'native-base';
+import { View, ImageBackground, Text, Dimensions, StyleSheet, AsyncStorage, Image,TouchableOpacity } from 'react-native'
+import { Grid, Row, Form, Item, Input, Spinner, Left } from 'native-base';
 import FormLogin from '../containers/form_login/form_login';
 import { material } from 'react-native-typography'
 var token = null
@@ -8,20 +8,20 @@ export default class Login extends Component {
     static navigationOptions = {
         header: null
     }
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            token:''
+            token: ''
         }
-    }     
+    }
     async componentWillMount() {
         console.log(this.props.navigation)
         token = await this.getUserToken()
         if (token != 'none') {
             //BackHandler.exitApp()
             this.props.navigation.navigate('ListFiesta')
-        }else{
-            this.setState({token:token})
+        } else {
+            this.setState({ token: token })
         }
     }
     getUserToken = async () => {
@@ -48,12 +48,21 @@ export default class Login extends Component {
         } else {
             return (
 
-                <View style={styles.container}>
-                    <View style={{ marginTop: (Dimensions.get('screen').height * 20) / 100 }}>
-                        <Text style={styles.text_prado}>PradoAplication</Text>
+                <ImageBackground
+                source={require('../../images/backimage.jpg')}
+                    style={styles.view_imageBackgroud}
+                    imageStyle={styles.imageStyleImageBackgroudn}
+                >
+                    <View>
+                       <Image style={styles.logo} source={require('../../images/logo2.png')}></Image>
                     </View >
                     <FormLogin navigation={this.props.navigation} style={{ flex: 1 }}></FormLogin>
-                </View>
+                    <View style={styles.bottomMenu}>
+                    {/* <Left><TouchableOpacity><Text style={styles.textMenu}>Registrarse</Text></TouchableOpacity></Left> */}
+                    {/* <Left><TouchableOpacity><Text style={styles.textMenu}>Ayuda</Text></TouchableOpacity></Left> */}
+                    </View >
+                </ImageBackground>
+
             )
         }
 
@@ -67,6 +76,11 @@ const styles = StyleSheet.create({
         flex: 1
 
     },
+    logo:{
+         width: Dimensions.get('screen').width ,
+         height: (Dimensions.get('screen').height * 30)/100,
+         resizeMode: 'stretch'
+    },
     text_color: {
         color: '#f3f3f3'
     },
@@ -77,5 +91,19 @@ const styles = StyleSheet.create({
         ...material.display1,
         //marginTop: 100,
 
+    },
+    view_imageBackgroud: {
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    bottomMenu:{
+       
+    },
+    textMenu:{
+       
     }
 }) 
